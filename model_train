@@ -1,0 +1,45 @@
+from keras import optimizers
+
+# compile the model
+model.compile(loss='binary_crossentropy',
+              optimizer=optimizers.Adagrad(lr=0.001),
+              metrics=['accuracy'])
+
+
+train_dir = '/content/gdrive/MyDrive/archive.zip (Unzipped Files)/dog vs cat/dataset/training_set'
+test_dir = '/content/gdrive/MyDrive/archive.zip (Unzipped Files)/dog vs cat/dataset/test_set'
+
+# Define data generators for train and test data
+train_datagen = ImageDataGenerator(rescale=1./255)
+test_datagen = ImageDataGenerator(rescale=1./255)
+
+train_data = train_datagen.flow_from_directory(train_dir, 
+                                               target_size=(150, 150), 
+                                               batch_size=32, 
+                                               class_mode='binary')
+
+test_data = test_datagen.flow_from_directory(test_dir, 
+                                             target_size=(150, 150), 
+                                             batch_size=32, 
+                                             class_mode='binary')
+
+import time
+# Set the batch size and number of epochs
+batch_size = 128
+epochs = 10
+
+# Train the model and record the training time
+start_time = time.time()
+
+history = model.fit(
+    train_data,
+    validation_data=test_data,
+    batch_size=batch_size,
+    epochs=epochs,
+    verbose=1
+)
+
+end_time = time.time()
+training_time = end_time - start_time
+
+print(f"\nTotal training time: {training_time:.2f} seconds")

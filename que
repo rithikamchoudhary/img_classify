@@ -1,0 +1,47 @@
+Prepare one python notebook (recommended- use Google Colab) to build, train and evaluate a deep neural network on the two datasets given below (tensorflow or tensorflow.keras library recommended). Read the instructions carefully.
+
+Question No.1. Vision Dataset: Please find your dataset from the link - https://www.kaggle.com/chetankv/dogs-cats-images (10 marks)
+
+
+1- Import Libraries/Dataset (1 mark)
+
+-> Import the required libraries and the dataset (use Google Drive if required).
+-> Check the GPU available (recommended- use free GPU provided by Google Colab).
+
+
+2-Data Visualization and augmentation (1 mark)
+
+-> Plot at least two samples from each class of the dataset (use matplotlib/seaborn/any other library).
+-> Apply rotation and height shift augmentation (rotation_range, height_shift_range)to the dataset separately. Print the augmented image and the original image for each class and each augmentation.
+-> Bring the train and test data in the required format.
+-> Print the shapes of train and test data.
+
+
+3- Model Building (0.4*5 = 2 mark)
+
+-> Sequential Model layers- Use AT LEAST 3 hidden layers with appropriate input for each. Choose the best number for hidden units and give reasons.
+-> Add L2 regularization to all the layers.
+-> Add one layer of dropout at the appropriate position and give reasons.
+-> Choose the appropriate activation function for all the layers.
+-> Print the model summary.
+
+
+4- Model Compilation (1 mark)
+
+-> Compile the model with the appropriate loss function.
+
+-> Use an appropriate optimizer. Give reasons for the choice of learning rate and its value.
+
+-> Use accuracy as a metric.
+
+
+5- Model Training (1 + 1 = 2 mark)
+
+-> Train the model for an appropriate number of epochs. Print the train and validation accuracy and loss for each epoch. Use the appropriate batch size.
+-> Plot the loss and accuracy history graphs for both train and validation set. Print the total time taken for training.
+
+
+6- Model Evaluation (0.5 + 0.5 = 1 mark)
+
+-> Print the final train and validation loss and accuracy. Print confusion matrix and classification report for the validation dataset. Analyse and report the best and worst performing class.
+-> Print the two most incorrectly classified images for each class in the test dataset.

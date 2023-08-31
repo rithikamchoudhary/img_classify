@@ -1,0 +1,15 @@
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+import zipfile
+
+# Check if GPU is available
+if tf.test.gpu_device_name():
+    print('GPU available: {}'.format(tf.test.gpu_device_name()))
+else:
+    print('No GPU found')
+
+# Mount Google Drive (if dataset is stored there)
+from google.colab import drive
+drive.mount('/content/gdrive')

@@ -1,0 +1,61 @@
+import os
+import random
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+!pip install keras
+from keras.preprocessing.image import ImageDataGenerator
+from keras.utils import load_img, img_to_array
+
+# Set the paths to the dataset directories
+train_dir = '/content/gdrive/MyDrive/archive.zip (Unzipped Files)/dog vs cat/dataset/training_set'
+test_dir = '/content/gdrive/MyDrive/archive.zip (Unzipped Files)/dog vs cat/dataset/test_set'
+
+# Define the data generators for augmentation
+train_datagen = ImageDataGenerator(rotation_range=30, height_shift_range=0.2)
+test_datagen = ImageDataGenerator()
+
+# Define the data generators for loading data
+train_generator = train_datagen.flow_from_directory(train_dir, target_size=(150, 150),
+                                                    batch_size=32, class_mode='binary')
+
+test_generator = test_datagen.flow_from_directory(test_dir, target_size=(150, 150),
+                                                  batch_size=32, class_mode='binary', shuffle=False)
+
+# Define the class labels
+class_labels = {v: k for k, v in train_generator.class_indices.items()}
+
+# Plot two samples from each class of the dataset
+fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(10, 10))
+for i, cls in enumerate(train_generator.class_indices.keys()):
+    imgs = os.listdir(os.path.join(train_dir, cls))
+    imgs = [os.path.join(train_dir, cls, img) for img in random.sample(imgs, 2)]
+    for j, img_path in enumerate(imgs):
+        img = load_img(img_path, target_size=(150, 150))
+        ax[j, i].imshow(img)
+        ax[j, i].set_title(f'{cls}: {class_labels[i]}')
+
+plt.show()
+
+# Apply rotation and height shift augmentation to the dataset separately
+fig, ax = plt.subplots(nrows=4, ncols=4, figsize=(10, 10))
+for i, cls in enumerate(train_generator.class_indices.keys()):
+    imgs = os.listdir(os.path.join(train_dir, cls))
+    img_path = os.path.join(train_dir, cls, random.choice(imgs))
+    img = load_img(img_path, target_size=(150, 150))
+    print(img.size)
+    img = img_to_array(img)
+    img = np.expand_dims(img, axis=0)
+    j = 0
+    for batch in train_datagen.flow(img, batch_size=1):
+        if j == 4:
+            break
+        ax[j, i].imshow(batch[0].astype('uint8'))
+        ax[j, i].set_title(f'{cls}: Augmented {j+1}')
+        j += 1
+
+plt.show()
+
+# Print the shapes of train and test data
+print(f'Train data shape: {train_generator[0][0].shape}')
+print(f'Test data shape: {test_generator[0][0].shape}')
